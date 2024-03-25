@@ -3,7 +3,8 @@
 
 # def send_traffic(dst_mac, interface):
 #     packet = Ether(dst=dst_mac) / TCP(dport=80)
-#     pkt_count = 0
+#     pkt_count = 0llo
+
 #     start_time = time.time()
 
 #     while True:
@@ -24,8 +25,9 @@
 from scapy.all import *
 import time
 
-def send_traffic(src_ip, dst_ip, src_port, dst_port, dst_mac, interface):
-    packet = Ether(dst=dst_mac) / IP(src=src_ip, dst=dst_ip) / TCP(sport=src_port, dport=dst_port)
+def send_traffic(src_ip, dst_ip, src_port, dst_port, dst_mac, interface, _payload_ = 'hello!'):
+    packet = Ether(dst=dst_mac) / IP(src=src_ip, dst=dst_ip) / TCP(sport=src_port, dport=dst_port) / Raw(load=_payload_)
+    # packet.load = _payload_
     pkt_count = 0
     start_time = time.time()
 
@@ -37,6 +39,7 @@ def send_traffic(src_ip, dst_ip, src_port, dst_port, dst_mac, interface):
             duration = time.time() - start_time
             throughput = pkt_count / duration
             print(f"Sent {pkt_count} packets in {duration:.2f} seconds. Throughput: {throughput:.2f} packets/sec")
+            break
 
 if __name__ == '__main__':
     src_ip = '10.10.1.2'     # Source IP address
@@ -45,5 +48,6 @@ if __name__ == '__main__':
     dst_port = 80            # Destination port
     dst_mac = 'a0:36:9f:2a:5c:38'  # MAC address of the target machine
     interface = 'enp3s0f0'   # Interface name on the source machine
+    # _payload_ = 'Helloooooo!'
 
     send_traffic(src_ip, dst_ip, src_port, dst_port, dst_mac, interface)
