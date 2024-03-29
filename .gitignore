@@ -11,3 +11,5 @@
 /.ssh
 /.vscode-server
 /.wget-hsts
+/pcaps
+univ*
